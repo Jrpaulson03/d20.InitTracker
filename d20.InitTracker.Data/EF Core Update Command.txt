@@ -1,0 +1,4 @@
+Scaffold-DbContext "data source=azrsqldbaas01.database.windows.net;initial catalog=VaxTracker; user id=VaxTrackerUser;password=lIFrt6gsf3NorVlUcBUY;MultipleActiveResultSets=True;" Microsoft.EntityFrameworkCore.SqlServer -f -o Models
+
+
+Scaffold-DbContext "data source=tcp:jpaulson.database.windows.net,1433;initial catalog=d20Projects;user id=jpaulson@outlook.com@jpaulson;password=Jester123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" Microsoft.EntityFrameworkCore.SqlServer -f -o Models

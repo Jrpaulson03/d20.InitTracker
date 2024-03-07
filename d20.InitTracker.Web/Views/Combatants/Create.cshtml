@@ -1,0 +1,69 @@
+﻿@model d20.InitTracker.Data.Models.Combatant
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Combatant</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CombatantKey" class="control-label"></label>
+                <input asp-for="CombatantKey" class="form-control" />
+                <span asp-validation-for="CombatantKey" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CombatantType" class="control-label"></label>
+                <input asp-for="CombatantType" class="form-control" />
+                <span asp-validation-for="CombatantType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dex" class="control-label"></label>
+                <input asp-for="Dex" class="form-control" />
+                <span asp-validation-for="Dex" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InitiativeModifier" class="control-label"></label>
+                <input asp-for="InitiativeModifier" class="form-control" />
+                <span asp-validation-for="InitiativeModifier" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dmnotes" class="control-label"></label>
+                <input asp-for="Dmnotes" class="form-control" />
+                <span asp-validation-for="Dmnotes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ControlledBy" class="control-label"></label>
+                <input asp-for="ControlledBy" class="form-control" />
+                <span asp-validation-for="ControlledBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedDateTime" class="control-label"></label>
+                <input asp-for="CreatedDateTime" class="form-control" />
+                <span asp-validation-for="CreatedDateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
