@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Microsoft.Graph;
 using Microsoft.Identity.Web;
+using d20.InitTracker.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace d20.InitTracker.Web.Controllers
 {
@@ -12,19 +14,28 @@ namespace d20.InitTracker.Web.Controllers
     {
         private readonly GraphServiceClient _graphServiceClient;
         private readonly ILogger<HomeController> _logger;
+        private readonly D20ProjectsContext _context;
 
-        public HomeController(ILogger<HomeController> logger, GraphServiceClient graphServiceClient)
+
+        public HomeController(ILogger<HomeController> logger, GraphServiceClient graphServiceClient, D20ProjectsContext context)
         {
             _logger = logger;
             _graphServiceClient = graphServiceClient;;
+            _context = context;
         }
 
         [AuthorizeForScopes(ScopeKeySection = "MicrosoftGraph:Scopes")]
         public async Task<IActionResult> Index()
         {
-var user = await _graphServiceClient.Me.Request().GetAsync();
-ViewData["GraphApiResult"] = user.DisplayName;
-            return View();
+            var user = await _graphServiceClient.Me.Request().GetAsync();
+            ViewData["GraphApiResult"] = user.DisplayName;
+
+            IndexViewModel vm = new IndexViewModel();
+
+            vm.encounters = await _context.Encounters.ToListAsync();
+            vm.combatants = await _context.Combatants.ToListAsync();
+
+            return View(vm);
         }
 
         public IActionResult Privacy()

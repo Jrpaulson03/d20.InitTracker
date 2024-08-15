@@ -1,11 +1,56 @@
+@model d20.InitTracker.Web.Models.IndexViewModel
+
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <h2>Encounters</h2>
+    <div class="row flex-row flex-nowrap overflow-auto">
+        @foreach (var encounter in Model.encounters)
+        {
+            <div class="col-3">
+                <div class="card bg-dark text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">@encounter.EncounterName</h5>
+                        <p class="card-text">Start Date: @encounter.EncounterStartDate?.ToString("MM/dd/yyyy")</p>
+                        <p class="card-text">Combatants: @encounter.EncounterCombatants.Count</p>
+
+                        <a href="@Url.Action("Edit", "Encounters", new { id = encounter.EncounterKey })" class="btn btn-light">Edit</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <h2>Combatants</h2>
+    <div class="row flex-row flex-nowrap overflow-auto">
+        @foreach (var combatant in Model.combatants)
+        {
+            <div class="col-3">
+                <div class="card bg-dark text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">@combatant.Name</h5>
+                        <p class="card-text">Type: @combatant.CombatantType</p>
+                        <p class="card-text">Created: @combatant.CreatedDateTime?.ToString("MM/dd/yyyy")</p>
+                        <a href="@Url.Action("Edit", "Combatants", new { id = combatant.CombatantKey })" class="btn btn-light">Edit</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
+
 
 <div>Graph API result</div>
 <div>@ViewData["GraphApiResult"]</div>
+
+
+                        <style>
+    .row.flex-row {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+</style>

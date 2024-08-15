@@ -33,7 +33,6 @@ public partial class D20ProjectsContext : DbContext
         {
             entity.HasKey(e => e.CombatantKey);
 
-            entity.Property(e => e.CombatantKey).ValueGeneratedNever();
             entity.Property(e => e.ControlledBy)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -53,7 +52,6 @@ public partial class D20ProjectsContext : DbContext
 
             entity.ToTable("CombatantType");
 
-            entity.Property(e => e.CombatantTypeKey).ValueGeneratedNever();
             entity.Property(e => e.CombatantTypeName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -63,7 +61,6 @@ public partial class D20ProjectsContext : DbContext
         {
             entity.HasKey(e => e.EncounterKey);
 
-            entity.Property(e => e.EncounterKey).ValueGeneratedNever();
             entity.Property(e => e.EncounterName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -73,8 +70,6 @@ public partial class D20ProjectsContext : DbContext
         modelBuilder.Entity<EncounterCombatant>(entity =>
         {
             entity.HasKey(e => e.EncounterCombatantKey);
-
-            entity.Property(e => e.EncounterCombatantKey).ValueGeneratedNever();
 
             entity.HasOne(d => d.CombatantKeyNavigation).WithMany(p => p.EncounterCombatants)
                 .HasForeignKey(d => d.CombatantKey)

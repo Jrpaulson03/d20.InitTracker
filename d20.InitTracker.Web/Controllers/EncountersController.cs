@@ -72,7 +72,14 @@ namespace d20.InitTracker.Web.Controllers
                 return NotFound();
             }
 
-            var encounter = await _context.Encounters.FindAsync(id);
+            var encounter = _context.Encounters
+                 .Include(e => e.EncounterCombatants)
+                 .ThenInclude(ec => ec.CombatantKeyNavigation)
+                 .FirstOrDefault(e => e.EncounterKey == id);
+
+            ViewBag.AllCombatants = _context.Combatants.ToList();
+
+
             if (encounter == null)
             {
                 return NotFound();
@@ -152,5 +159,25 @@ namespace d20.InitTracker.Web.Controllers
         {
             return _context.Encounters.Any(e => e.EncounterKey == id);
         }
+
+        [HttpGet]
+        [Route("api/Encounters/{encounterId}/Combatants")]
+        public IActionResult GetCombatantsInEncounter(int encounterId)
+        {
+            var combatants = _context.EncounterCombatants
+                .Where(ec => ec.EncounterKey == encounterId)
+                .OrderBy(ec => ec.Initiative)
+                .Select(ec => new
+                {
+                    ec.CombatantKey,
+                    ec.CombatantKeyNavigation.Name,
+                    ec.Initiative
+                })
+                .ToList();
+
+            return Ok(combatants);
+        }
+
+
     }
 }

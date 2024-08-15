@@ -21,7 +21,6 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 builder.Services.AddDbContext<D20ProjectsContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DevelopmentConnectionString")));
 
-
 builder.Services.AddControllersWithViews(options =>
 {
     var policy = new AuthorizationPolicyBuilder()
@@ -52,6 +51,12 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "api",
+    pattern: "api/{controller}/{action}/{id?}");
+
+
 app.MapRazorPages();
 
 app.Run();

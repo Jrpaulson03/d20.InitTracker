@@ -29,6 +29,36 @@
             </div>
         </form>
     </div>
+    <div class="container">
+        <h2>Edit Combatants</h2>
+        <form>
+            <!-- Other fields for Encounter -->
+
+            <h3>Combatants</h3>
+            <ul id="combatantList">
+                @foreach (var ec in Model.EncounterCombatants.OrderBy(c => c.Initiative))
+                {
+                    <li>
+                        @ec.CombatantKeyNavigation.Name (Initiative: @ec.Initiative)
+                        <button type="button" onclick="removeCombatant(@ec.CombatantKey)">Remove</button>
+                    </li>
+                }
+            </ul>
+
+            <select id="combatantDropdown">
+                <option value="">Select Combatant</option>
+                @foreach (var combatant in ViewBag.AllCombatants)
+                {
+                    <option value="@combatant.CombatantKey">@combatant.Name</option>
+                }
+            </select>
+            <input type="number" id="initiativeInput" placeholder="Initiative" />
+            <button type="button" onclick="addCombatant()">Add Combatant</button>
+        </form>
+    </div>
+
+
+
 </div>
 
 <div>
@@ -37,4 +67,66 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        function addCombatant() {
+            const encounterKey = @Model.EncounterKey;
+            const combatantKey = document.getElementById('combatantDropdown').value;
+            const initiative = document.getElementById('initiativeInput').value;
+
+            if (combatantKey && initiative) {
+
+
+                alert("Attempting to Add Combatant!");
+
+                fetch('/api/EncounterCombatants/Add', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ EncounterKey: encounterKey, CombatantKey: combatantKey, Initiative: initiative })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Update the combatant list
+                        refreshCombatantList();
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        }
+
+        function removeCombatant(combatantKey) {
+            const encounterKey = @Model.EncounterKey;
+
+            fetch('/api/EncounterCombatants/Remove', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ EncounterKey: encounterKey, CombatantKey: combatantKey })
+            })
+                .then(response => response.ok ? refreshCombatantList() : console.error('Error removing combatant'))
+                .catch(error => console.error('Error:', error));
+        }
+
+        function refreshCombatantList() {
+            const encounterKey = @Model.EncounterKey;
+
+            fetch(`/api/Encounters/${encounterKey}/Combatants`)
+                .then(response => response.json())
+                .then(data => {
+                    const list = document.getElementById('combatantList');
+                    list.innerHTML = '';
+                    data.forEach(combatant => {
+                        const li = document.createElement('li');
+                        li.textContent = `${combatant.Name} (Initiative: ${combatant.Initiative})`;
+                        const button = document.createElement('button');
+                        button.textContent = 'Remove';
+                        button.setAttribute('type', 'button');
+                        button.setAttribute('onclick', `removeCombatant(${combatant.CombatantKey})`);
+                        li.appendChild(button);
+                        list.appendChild(li);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+
+
 }

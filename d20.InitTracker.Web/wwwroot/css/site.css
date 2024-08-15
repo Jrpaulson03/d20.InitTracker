@@ -1,22 +1,48 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 body {
-  margin-bottom: 60px;
+    background: url('/images/parchment-background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Roboto', sans-serif;
+    color: #f8f9fa;
+}
+
+.navbar {
+    font-family: 'MedievalSharp', cursive;
+    background-color: #343a40 !important;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    font-size: 1.1rem;
+}
+
+.footer {
+    background-color: #343a40;
+    padding: 1rem 0;
+}
+
+    .footer a {
+        color: #f8f9fa;
+        text-decoration: none;
+    }
+
+.container {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'MedievalSharp', cursive;
+}
+
+button.navbar-toggler {
+    border: none;
+}
+
+.navbar-text {
+    margin-right: 1rem;
+    font-family: 'MedievalSharp', cursive;
 }
