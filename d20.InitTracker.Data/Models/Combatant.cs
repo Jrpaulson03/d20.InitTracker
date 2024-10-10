@@ -21,5 +21,7 @@ public partial class Combatant
 
     public DateTime? CreatedDateTime { get; set; }
 
+    public virtual CombatantType? CombatantTypeNavigation { get; set; }
+
     public virtual ICollection<EncounterCombatant> EncounterCombatants { get; set; } = new List<EncounterCombatant>();
 }

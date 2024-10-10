@@ -44,6 +44,10 @@ public partial class D20ProjectsContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+
+            entity.HasOne(d => d.CombatantTypeNavigation).WithMany(p => p.Combatants)
+                .HasForeignKey(d => d.CombatantType)
+                .HasConstraintName("FK_Combatants_CombatantType");
         });
 
         modelBuilder.Entity<CombatantType>(entity =>

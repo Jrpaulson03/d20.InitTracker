@@ -31,7 +31,7 @@
                 <div class="card bg-dark text-white">
                     <div class="card-body">
                         <h5 class="card-title">@combatant.Name</h5>
-                        <p class="card-text">Type: @combatant.CombatantType</p>
+                        <p class="card-text">Type: @combatant.CombatantTypeNavigation?.CombatantTypeName</p>
                         <p class="card-text">Created: @combatant.CreatedDateTime?.ToString("MM/dd/yyyy")</p>
                         <a href="@Url.Action("Edit", "Combatants", new { id = combatant.CombatantKey })" class="btn btn-light">Edit</a>
                     </div>
@@ -42,8 +42,8 @@
 </div>
 
 
-<div>Graph API result</div>
-<div>@ViewData["GraphApiResult"]</div>
+@* <div>Graph API result</div>
+<div>@ViewData["GraphApiResult"]</div> *@
 
 
                         <style>

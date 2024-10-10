@@ -32,8 +32,9 @@ namespace d20.InitTracker.Web.Controllers
 
             IndexViewModel vm = new IndexViewModel();
 
-            vm.encounters = await _context.Encounters.ToListAsync();
-            vm.combatants = await _context.Combatants.ToListAsync();
+            //Load the values of the lists, including the tables through the FKs that will be displayed.
+            vm.encounters = await _context.Encounters.Include(c => c.EncounterCombatants).ToListAsync();
+            vm.combatants = await _context.Combatants.Include(c => c.CombatantTypeNavigation).ToListAsync();
 
             return View(vm);
         }
